@@ -6,7 +6,7 @@ import axios from "axios";
 Vue.use(Vuex);
 Vue.use(Vuetify);
 const config = {
-  "user-key": "1fed55d6e1bf7fa795601c5deac270ae",
+  "user-key": "",
   Accept: "application/json"
 };
 
@@ -26,7 +26,7 @@ const store = new Vuex.Store({
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=` +
           e +
-          `&key=AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0`
+          `&key=`
       );
 
       lat = response.data.results[0].geometry.location.lat;
