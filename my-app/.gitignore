@@ -1,0 +1,24 @@
+.DS_Store
+node_modules
+/dist
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+#user-key="1fed55d6e1bf7fa795601c5deac270ae"
+#googleapi="AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0"
