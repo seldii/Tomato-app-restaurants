@@ -2,15 +2,23 @@
   <div id="app" class="xs">
     <v-app class="xs">
       <v-container>
-        <v-btn append exact-active-class raised round>
-          <router-link to="/landing">Search</router-link>
-        </v-btn>
-        <v-btn append exact-active-class raised round>
-          <router-link to="/discover">Discover</router-link>
-        </v-btn>
-        <v-btn append exact-active-class raised round>
-          <router-link to="/">Home</router-link>
-        </v-btn>
+        <v-container class="buttons">
+          <v-btn to="/landing" color="rgb(221, 107, 58)" active-class="active" fab dark>
+            <v-icon>search</v-icon>
+            <span class="button">Search</span>
+          </v-btn>
+
+          <v-btn to="/discover" color="rgb(221, 107, 58)" active-class="active" fab dark>
+            <v-icon>public</v-icon>
+            <span class="button">Discover</span>
+          </v-btn>
+
+          <v-btn to="/" color="rgb(221, 107, 58)" active-class="active" fab dark>
+            <v-icon>person</v-icon>
+            <span class="button">Home</span>
+          </v-btn>
+        </v-container>
+
         <router-view></router-view>
       </v-container>
     </v-app>
@@ -29,8 +37,18 @@ export default {
 </script>
 
 
-<style>
-a {
-  text-decoration: none;
+<style scoped>
+.active {
+  background-color: rgb(219, 117, 70);
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.button {
+  font-size: 10px;
 }
 </style>

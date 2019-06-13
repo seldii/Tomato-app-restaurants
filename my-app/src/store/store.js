@@ -18,7 +18,8 @@ const store = new Vuex.Store({
     collectionIds: [],
     restaurants: [],
     restaurantInfo: [],
-    cityId: ""
+    cityId: "",
+    cityName: ""
   },
   actions: {
     async getLocation({ commit }, e) {
@@ -38,8 +39,9 @@ const store = new Vuex.Store({
           lon,
         { headers: config }
       );
-      console.log(response2.data.location_suggestions[0].id);
+      console.log(response2.data.location_suggestions[0].name);
       commit("setCityId", response2.data.location_suggestions[0].id);
+      commit("setCityName", response2.data.location_suggestions[0].name);
     },
 
     async getCollections({ commit }, cityId) {
@@ -52,9 +54,10 @@ const store = new Vuex.Store({
             { headers: config }
           )
           .then(response => {
+            console.log(response.data.collections);
             commit("setCollections", response.data.collections);
           });
-      }, 1000);
+      }, 2000);
     },
 
     async getRestaurants({ commit }, event) {
@@ -99,6 +102,9 @@ const store = new Vuex.Store({
 
     setCityId: function(state, cityId) {
       state.cityId = cityId;
+    },
+    setCityName: function(state, cityName) {
+      state.cityName = cityName;
     }
   }
 });

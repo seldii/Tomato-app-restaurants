@@ -15,7 +15,7 @@ export default new Router({
     {
       path: "/landing",
       name: "landing",
-      component: Landing
+      component: () => import("./views/Landing.vue")
     },
     {
       path: "/",
@@ -23,7 +23,7 @@ export default new Router({
       component: Home
     },
     {
-      path: "/discover",
+      path: "/discover/:cityId",
       name: "discover",
       component: () => import("./views/Discover.vue")
     },
