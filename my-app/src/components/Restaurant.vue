@@ -34,7 +34,7 @@
                 <v-spacer></v-spacer>
               </v-card-actions>
               <router-link to="/more_info">
-                <v-btn v-on:click="getMoreInfo(restaurant)" flat small color="primary">More info</v-btn>
+                <v-btn @click.native="getMoreInfo(restaurant)" flat small color="primary">More info</v-btn>
               </router-link>
               <router-view></router-view>
             </v-card>

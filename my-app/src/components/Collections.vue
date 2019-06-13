@@ -9,7 +9,7 @@
         v-for="collection in collections"
         :key="collection.collection.collection_id"
       >
-        <v-flex xs12 v-on:click="getRestaurants(collection)">
+        <v-flex xs12 @click="getRestaurants(collection)">
           <v-card color="white darken-2" class="dark-grey--text">
             <v-card-title primary-title>
               <div>

@@ -5,6 +5,9 @@ import router from "./router";
 import store from "./store/store";
 import "vuetify/src/stylus/app.styl";
 import Vuetify from "vuetify";
+import { sync } from "vuex-router-sync";
+
+sync(store, router);
 
 Vue.use(Vuetify);
 
