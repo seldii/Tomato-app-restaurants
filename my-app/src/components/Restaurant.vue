@@ -3,6 +3,7 @@
     <v-container v-if="restaurants == 0 ">Loading..</v-container>
     <v-card v-else>
       <v-container fluid grid-list-lg>
+        <v-text-field disabled :label="collectionName" prepend-inner-icon="place"></v-text-field>
         <v-layout v-for="restaurant in restaurants" :key="restaurant.id">
           <v-flex xs12>
             <v-card color="white darken-2" class="dark-grey--text">
@@ -34,7 +35,13 @@
                 <v-spacer></v-spacer>
               </v-card-actions>
               <router-link to="/more_info">
-                <v-btn @click.native="getMoreInfo(restaurant)" flat small color="primary">More info</v-btn>
+                <v-btn
+                  @click.native="getMoreInfo"
+                  :to="{name:'MoreInfo', params: {restaurantId: restaurant.restaurant.id, restaurantName: restaurant.restaurant.name}}"
+                  flat
+                  small
+                  color="primary"
+                >More info</v-btn>
               </router-link>
               <router-view></router-view>
             </v-card>
@@ -46,22 +53,34 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
+import router from "../router";
 export default {
   name: "Restaurant",
+  props: ["collectionName", "collectionId"],
   data() {
     return {
       images: {
-        sample: require("../assets/fillingPic.jpg")
+        sample: require("../assets/fillingPic.jpg") //filling image
       }
     };
   },
   methods: {
-    ...mapActions(["getMoreInfo"])
+    getMoreInfo: function() {
+      this.$store.dispatch(
+        "getMoreInfo",
+        router.currentRoute.params.restaurantId
+      );
+    }
   },
   computed: {
-    restaurants() {
-      return this.$store.state.restaurants;
+    collections() {
+      return this.$store.state.collections;
+    },
+    ...mapState(["restaurants"]),
+
+    cityName() {
+      return this.$store.state.cityName;
     }
   }
 };

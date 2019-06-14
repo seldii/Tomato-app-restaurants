@@ -60,15 +60,14 @@ const store = new Vuex.Store({
       }, 2000);
     },
 
-    async getRestaurants({ commit }, event) {
-      const id = event.collection.collection_id;
+    async getRestaurants({ commit }, collectionId) {
       const url2 =
         `https://developers.zomato.com/api/v2.1/search?lat=` +
         lat +
         `&lon=` +
         lon +
         `&collection_id=` +
-        id;
+        collectionId;
       const response = await axios.get(url2, {
         headers: config
       });
@@ -76,8 +75,7 @@ const store = new Vuex.Store({
       commit("setRestaurants", response.data.restaurants);
     },
 
-    async getMoreInfo({ commit }, event) {
-      const restId = event.restaurant.id;
+    async getMoreInfo({ commit }, restId) {
       const url3 =
         `https://developers.zomato.com/api/v2.1/restaurant?res_id=` + restId;
 

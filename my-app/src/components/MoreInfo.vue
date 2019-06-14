@@ -67,6 +67,7 @@
 import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   name: "MoreInfo",
+  props: ["restarantId", "restaurantName"],
   data() {
     return {
       images: {
@@ -76,9 +77,7 @@ export default {
   },
   methods: {},
   computed: {
-    restaurantInfo() {
-      return this.$store.state.restaurantInfo;
-    }
+    ...mapState(["restaurantInfo"])
   }
 };
 </script>

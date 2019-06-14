@@ -8,7 +8,7 @@
         prepend-inner-icon="place"
         @keyup.enter="location"
       ></v-text-field>
-      <router-link :to="{name:'discover', params : {cityId: cityId}}">Let's discover</router-link>
+      <!-- <router-link :to="{name:'discover', params : {cityId: cityId}}">Let's discover</router-link> -->
       <router-view></router-view>
     </v-container>
   </div>
@@ -21,23 +21,20 @@ import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   name: "CitySearch",
   methods: {
-    location: function(e) {
+    location: async function(e) {
       let value = e.target.value;
       this.$store.dispatch("getLocation", value);
-      Vue.nextTick(() => {
+      await Vue.nextTick(() => {
         this.$store.dispatch("getCollections", this.$store.state.cityId).then(
           router.push({
-            name: "discover",
-            param: { cityId: this.$store.state.cityId }
+            name: "discover"
           })
         );
       });
     }
   },
   computed: {
-    cityId() {
-      return this.$store.state.cityId;
-    }
+    ...mapState(["cityId"])
   }
 };
 </script>

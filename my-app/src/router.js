@@ -23,19 +23,22 @@ export default new Router({
       component: Home
     },
     {
-      path: "/discover/:cityId",
+      path: "/discover/:cityName",
       name: "discover",
-      component: () => import("./views/Discover.vue")
+      component: () => import("./views/Discover.vue"),
+      props: true
     },
     {
-      path: "/restaurant",
+      path: "/restaurant/:collectionName",
       name: "Restaurant",
-      component: Restaurant
+      component: Restaurant,
+      props: true
     },
     {
       path: "/more_info",
       name: "MoreInfo",
-      component: MoreInfo
+      component: MoreInfo,
+      props: true
     }
   ]
 });

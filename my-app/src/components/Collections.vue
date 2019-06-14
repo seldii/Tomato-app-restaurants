@@ -9,9 +9,12 @@
         v-for="collection in collections"
         :key="collection.collection.collection_id"
       >
-        <v-flex xs12 @click="getRestaurants(collection)">
+        <v-flex xs12>
           <v-card color="white darken-2" class="dark-grey--text">
-            <router-link to="/restaurant">
+            <router-link
+              @click.native="getRestaurants"
+              :to="{name: 'Restaurant', params: {collectionName: collection.collection.title, collectionId: collection.collection.collection_id}}"
+            >
               <v-img
                 height="125"
                 class="grey darken-4"
@@ -43,15 +46,20 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations, mapState } from "vuex";
+import router from "../router";
 export default {
   name: "Collections",
+
   methods: {
-    ...mapActions(["getCollections", "getRestaurants"])
+    getRestaurants: function() {
+      this.$store.dispatch(
+        "getRestaurants",
+        router.currentRoute.params.collectionId
+      );
+    }
   },
   computed: {
-    collections() {
-      return this.$store.state.collections;
-    },
+    ...mapState(["collections"]),
     cityName() {
       return this.$store.state.cityName;
     }
@@ -60,9 +68,6 @@ export default {
     collections(newCollections, oldCollections) {
       console.log(`We have ${newCollections} fruits now, yaay!`);
     }
-  },
-  created() {
-    if (this.$store.state.cityId != 0) this.getCollections();
   }
 };
 </script>
