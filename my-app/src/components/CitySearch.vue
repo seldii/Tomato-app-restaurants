@@ -1,14 +1,26 @@
 <template>
   <div class="search">
     <v-container>
-      <v-text-field
-        browser-autocomplete
-        solo-inverted
-        label="Search for your city..."
-        prepend-inner-icon="place"
-        @keyup.enter="location"
-      ></v-text-field>
-      <!-- <router-link :to="{name:'discover', params : {cityId: cityId}}">Let's discover</router-link> -->
+      <v-form>
+        <v-text-field
+          v-model="cityName"
+          browser-autocomplete
+          solo-inverted
+          label="Search for your city..."
+          prepend-inner-icon="place"
+          data-vv-name="name"
+          @keydown.enter.prevent
+        ></v-text-field>
+        <v-btn
+          class="mx-2"
+          type="submit"
+          @click.native="location"
+          :to="{name:'discover', params:{cityName: cityName}}"
+          fab
+        >
+          <v-icon x-small>play_circle_filled</v-icon>
+        </v-btn>
+      </v-form>
       <router-view></router-view>
     </v-container>
   </div>
@@ -20,21 +32,22 @@ import router from "../router";
 import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   name: "CitySearch",
+  data() {
+    return {
+      cityName: ""
+    };
+  },
   methods: {
-    location: async function(e) {
-      let value = e.target.value;
-      this.$store.dispatch("getLocation", value);
-      await Vue.nextTick(() => {
-        this.$store.dispatch("getCollections", this.$store.state.cityId).then(
-          router.push({
-            name: "discover"
-          })
-        );
+    location: function() {
+      console.log(this.cityName);
+      this.$store.dispatch("getLocation", this.cityName);
+      Vue.nextTick(() => {
+        this.$store.dispatch("getCollections", this.$store.state.cityId);
       });
     }
   },
   computed: {
-    ...mapState(["cityId"])
+    ...mapState(["cityId", "cityName"])
   }
 };
 </script>

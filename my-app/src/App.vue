@@ -7,7 +7,7 @@
           <span class="button">Search</span>
         </v-btn>
 
-        <v-btn to="/discover" color="rgb(221, 107, 58)" active-class="active" fab dark>
+        <v-btn to="/discover/:cityName" color="rgb(221, 107, 58)" active-class="active" fab dark>
           <v-icon>public</v-icon>
           <span class="button">Discover</span>
         </v-btn>
