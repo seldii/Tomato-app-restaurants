@@ -7,12 +7,16 @@ import "vuetify/src/stylus/app.styl";
 import Vuetify from "vuetify";
 import { sync } from "vuex-router-sync";
 import * as VueGoogleMaps from "vue2-google-maps";
+import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete";
 
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0",
     libraries: "places" // necessary for places input
   }
+});
+Vue.use(VuetifyGoogleAutocomplete, {
+  apiKey: "AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0" // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
 });
 
 sync(store, router);

@@ -45,17 +45,16 @@
                   <br>
                   {{restaurantInfo.location.address}}
                 </div>
-                <hr>
-                <v-subheader>Highlights</v-subheader>
-                <v-container fluid grid-list-sm>
-                  <v-layout row wrap>
-                    <v-flex v-for="i in restaurantInfo.highlights" :key="i" xs3>
-                      <div>{{i}}</div>
-                    </v-flex>
-                  </v-layout>
-                </v-container>
               </v-card-text>
             </v-card>
+            <v-subheader>Highlights</v-subheader>
+            <v-container d-flex grid-list-xl>
+              <v-layout row wrap>
+                <v-flex v-for="i in restaurantInfo.highlights" :key="i" xs4>
+                  <v-chip outline color="red lighten-2">{{i}}</v-chip>
+                </v-flex>
+              </v-layout>
+            </v-container>
           </v-flex>
         </v-layout>
       </v-container>

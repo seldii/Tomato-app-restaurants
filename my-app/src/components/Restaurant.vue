@@ -3,7 +3,11 @@
     <v-container v-if="restaurants == 0 ">Loading..</v-container>
     <v-card v-else>
       <v-container fluid grid-list-lg>
-        <v-text-field disabled :label="collectionName" prepend-inner-icon="place"></v-text-field>
+        <v-text-field
+          disabled
+          :label="collectionName + ' in ' + cityName"
+          prepend-inner-icon="place"
+        ></v-text-field>
         <v-layout v-for="restaurant in restaurants" :key="restaurant.id">
           <v-flex xs12>
             <v-card color="white darken-2" class="dark-grey--text">

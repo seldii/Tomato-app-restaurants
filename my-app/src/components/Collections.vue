@@ -59,14 +59,15 @@ export default {
     }
   },
   computed: {
-    ...mapState(["collections"]),
+    ...mapState(["collections", "cityId"]),
     cityName() {
       return this.$store.state.cityName;
     }
   },
   watch: {
-    collections(newCollections, oldCollections) {
-      console.log(`We have ${newCollections} fruits now, yaay!`);
+    cityId(newValue, oldValue) {
+      console.log(`Updating from ${newValue} to ${oldValue}`);
+      this.$store.state.collections = [];
     }
   }
 };

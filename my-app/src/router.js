@@ -5,6 +5,7 @@ import Discover from "./views/Discover";
 import Landing from "./views/Landing";
 import Restaurant from "./components/Restaurant";
 import MoreInfo from "./components/MoreInfo";
+import Map from "./components/Map";
 
 Vue.use(Router);
 
@@ -39,6 +40,11 @@ export default new Router({
       name: "MoreInfo",
       component: MoreInfo,
       props: true
+    },
+    {
+      path: "/Map",
+      name: "Map",
+      component: Map
     }
   ]
 });
