@@ -11,12 +11,12 @@ import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete";
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0",
-    libraries: "places" // necessary for places input
+    key: "",
+    libraries: "places,drawing,visualization"
   }
 });
 Vue.use(VuetifyGoogleAutocomplete, {
-  apiKey: "AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0" // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
+  apiKey: "" // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
 });
 
 sync(store, router);

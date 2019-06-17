@@ -44,7 +44,8 @@ export default new Router({
     {
       path: "/Map",
       name: "Map",
-      component: Map
+      component: () => import("./components/Map"),
+      props: true
     }
   ]
 });

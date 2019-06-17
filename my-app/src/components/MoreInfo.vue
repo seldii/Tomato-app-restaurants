@@ -5,7 +5,7 @@
         <v-layout>
           <v-flex xs12>
             <v-card class="mx-auto my-5" max-width="374">
-              <router-link to="/restaurant">
+              <router-link to="/restaurant/:collectionName">
                 <v-btn icon>
                   <v-icon color="purple darken-2">navigate_before</v-icon>
                 </v-btn>
@@ -20,7 +20,9 @@
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
               ></v-img>
               <v-img v-else :src="images.sample"></v-img>
-              <v-card-title>{{restaurantInfo.name}}</v-card-title>
+              <v-card-title primary-title>
+                <div class="headline">{{restaurantInfo.name}}</div>
+              </v-card-title>
               <v-card-text>
                 <v-layout align-center>
                   <v-rating
@@ -39,14 +41,23 @@
                   Price range : {{restaurantInfo.price_range}}
                   • {{restaurantInfo.cuisines}}
                 </div>
-
                 <div>
-                  Address
-                  <br>
-                  {{restaurantInfo.location.address}}
+                  <GmapMap v-bind:center="center" v-bind:map-type-id="mapTypeId" v-bind:zoom="15">
+                    <GmapMarker
+                      v-for="(item, index) in markers"
+                      v-bind:key="index"
+                      v-bind:position="item.position"
+                      @click="center=item.position"
+                      @mouseover="onMapMarkerMouseOver(restaurantName)"
+                    />
+                  </GmapMap>
                 </div>
               </v-card-text>
             </v-card>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex xs12>
             <v-subheader>Highlights</v-subheader>
             <v-container d-flex grid-list-xl>
               <v-layout row wrap>
@@ -71,19 +82,45 @@ export default {
     return {
       images: {
         sample: require("../assets/fillingPic.jpg")
-      }
+      },
+      center: {
+        lat: parseFloat(this.$store.state.restaurantInfo.location.latitude),
+        lng: parseFloat(this.$store.state.restaurantInfo.location.longitude)
+      },
+      mapTypeId: "roadmap",
+      markers: []
     };
   },
-  methods: {},
+  methods: {
+    addMarker() {
+      const marker = {
+        lat: parseFloat(this.$store.state.restaurantInfo.location.latitude),
+        lng: parseFloat(this.$store.state.restaurantInfo.location.longitude)
+      };
+      this.markers.push({ position: marker });
+      console.log(this.markers);
+      console.log(this.$store.state.restaurantInfo.location);
+      console.log(this.restaurantName);
+    }
+  },
+  created() {
+    this.addMarker();
+  },
   computed: {
     ...mapState(["restaurantInfo"])
   }
 };
 </script>
 
+
 <style scoped>
 a {
   text-decoration: none;
+}
+.vue-map-container {
+  height: 450px;
+  max-width: 992px;
+  width: 100%;
 }
 </style>
 

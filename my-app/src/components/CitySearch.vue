@@ -52,27 +52,27 @@ export default {
   },
   methods: {
     location: function() {
-      console.log(this.addressData);
-      console.log(this.cityName);
       this.$store.dispatch("getLocation", this.searchedAdress);
-      Vue.nextTick(() => {
-        this.$store.dispatch("getCollections", this.$store.state.cityId);
+      console.log(this.$store.state.cityId);
+
+      router.push({
+        name: "Map",
+        params: { lat: this.address.latitude, lng: this.address.longitude }
       });
-      router.push({ name: "discover", params: { cityName: this.cityName } });
+      console.log(this.address);
     },
     getAddressData: function(addressData, placeResultData, id) {
       this.address = addressData;
-    },
-    mounted() {
-      this.$refs.address.focus();
-    },
-    computed: {
-      ...mapState(["cityId"])
-    },
-    watch: {
-      cityId(newValue, oldValue) {
-        console.log(`Updating from ${newValue} to ${oldValue}`);
-      }
+      console.log(addressData);
+    }
+  },
+  mounted() {},
+  computed: {
+    ...mapState(["cityId"])
+  },
+  watch: {
+    cityId(newValue, oldValue) {
+      console.log(`Updating from ${newValue} to ${oldValue}`);
     }
   }
 };

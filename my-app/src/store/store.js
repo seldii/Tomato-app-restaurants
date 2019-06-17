@@ -21,6 +21,7 @@ const store = new Vuex.Store({
     cityId: "",
     cityName: ""
   },
+  getters: {},
   actions: {
     async getLocation({ commit }, e) {
       const response = await axios.get(

@@ -1,18 +1,19 @@
 <template>
   <div class="discover">
-    <v-container>
-      <v-flex>What are you up to?</v-flex>
-    </v-container>
     <Collections/>
+    <Nav/>
   </div>
 </template>
 <script>
+import Nav from "../components/Nav";
+
 import Collections from "../components/Collections";
 export default {
   name: "Discover",
   props: ["cityName"],
   components: {
-    Collections
+    Collections,
+    Nav
   }
 };
 </script>

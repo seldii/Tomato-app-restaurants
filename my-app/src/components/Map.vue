@@ -1,69 +1,72 @@
 <template>
   <div>
-    <div>
-      <h2>Search and add a pin</h2>
-      <label>
-        <gmap-autocomplete @place_changed="setPlace"></gmap-autocomplete>
-        <button @click="addMarker">Add</button>
-      </label>
-      <br>
-    </div>
-    <br>
-    <gmap-map :center="center" :zoom="12" style="width:100%;  height: 400px;">
-      <gmap-marker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        @click="center=m.position"
-      ></gmap-marker>
-    </gmap-map>
+    <v-container>
+      <GmapMap v-bind:center="center" v-bind:map-type-id="mapTypeId" v-bind:zoom="12">
+        <GmapMarker
+          v-for="(item, index) in markers"
+          v-bind:key="index"
+          v-bind:position="item.position"
+          @click="center=item.position"
+        />
+      </GmapMap>
+      <v-btn block color="#FF4136" :to="{name:'discover'}">Discover the Collections in your city</v-btn>
+    </v-container>
+    <Nav/>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import router from "../router";
+import Nav from "./Nav";
+import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   name: "Map",
-  props: "cityName",
+  props: ["lat", "lng"],
   data() {
     return {
       // default to Montreal to keep it simple
       // change this to whatever makes sense
-      center: { lat: this.$store.state.lat, lng: this.$store.state.lon },
-      markers: [],
-      places: [],
-      currentPlace: null
+      center: { lat: parseFloat(this.lat), lng: parseFloat(this.lng) },
+      mapTypeId: "roadmap",
+      markers: []
     };
   },
 
-  mounted() {
-    this.geolocate();
-  },
-
   methods: {
-    // receives a place object via the autocomplete component
-    setPlace(place) {
-      this.currentPlace = place;
-    },
     addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        };
-        this.markers.push({ position: marker });
-        this.places.push(this.currentPlace);
-        this.center = marker;
-        this.currentPlace = null;
-      }
-    },
-    geolocate: function() {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
+      const marker = {
+        lat: parseFloat(this.lat),
+        lng: parseFloat(this.lng)
+      };
+      this.markers.push({ position: marker });
+      console.log(this.markers);
+    }
+  },
+  computed: {
+    ...mapState(["cityId"]),
+    cityName() {
+      return this.$store.state.cityName;
+    }
+  },
+  created() {
+    this.addMarker();
+  },
+  watch: {
+    cityId(newValue, oldValue) {
+      console.log(`Updating from ${newValue} to ${oldValue}`);
+      this.$store.state.collections = [];
     }
   }
 };
 </script>
+<style scoped>
+a {
+  text-decoration: none;
+}
+.vue-map-container {
+  height: 450px;
+  max-width: 992px;
+  width: 100%;
+}
+</style>
