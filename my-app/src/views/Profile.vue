@@ -1,0 +1,59 @@
+<template>
+  <div class="profile">
+    <Chat v-if="currentUser && currentUser.displayName"/>
+    <Login v-else/>
+    <router-view/>
+  </div>
+</template>
+
+<script>
+import Chat from "../components/Chat";
+import Login from "../components/Login";
+import Nav from "../components/Nav";
+import router from "../router";
+import { mapState } from "vuex";
+import store from "../store/index";
+import user from "../store/user";
+
+export default {
+  name: "profile",
+  computed: {
+    currentUser() {
+      return this.$store.state.user.currentUser;
+    }
+  },
+  components: {
+    Login,
+    Chat
+  }
+};
+</script>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+h1,
+h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>

@@ -2,11 +2,33 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Vuetify from "vuetify";
 import axios from "axios";
+import * as firebase from "firebase";
+import "firebase/auth";
+import "firebase/firestore";
+import VueFirestore from "vue-firestore";
+import user from "./user";
+import messages from "./messages";
 
+Vue.config.productionTip = false;
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB7ws-JIBX__G79-jBTYMemDCaBuTwUKA0",
+  authDomain: "my-app-242908.firebaseapp.com",
+  databaseURL: "https://my-app-242908.firebaseio.com",
+  projectId: "my-app-242908",
+  storageBucket: "my-app-242908.appspot.com",
+  messagingSenderId: "389070354277",
+  appId: "1:389070354277:web:d38be0175f300eea"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+Vue.use(VueFirestore);
 Vue.use(Vuex);
 Vue.use(Vuetify);
+
 const config = {
-  "user-key": "",
+  "user-key": "1fed55d6e1bf7fa795601c5deac270ae",
   Accept: "application/json"
 };
 
@@ -21,13 +43,17 @@ const store = new Vuex.Store({
     cityId: "",
     cityName: ""
   },
+  modules: {
+    user,
+    messages
+  },
   getters: {},
   actions: {
     async getLocation({ commit }, e) {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=` +
           e +
-          `&key=`
+          `&key=AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0`
       );
 
       lat = response.data.results[0].geometry.location.lat;
@@ -86,6 +112,22 @@ const store = new Vuex.Store({
       console.log(response.data);
       commit("getMoreInfo", response.data);
     }
+    /* init({ commit }) {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          commit("SET_USER", { user });
+        } else {
+          commit("UNSET_USER");
+        }
+      });
+    },
+    login({}) {
+      var authProvider = new firebase.auth.GoogleAuthProvider();
+      return firebase.auth().signInWithPopup(authProvider);
+    },
+    logout({}) {
+      firebase.auth().signOut();
+    } */
   },
 
   mutations: {
@@ -105,7 +147,14 @@ const store = new Vuex.Store({
     setCityName: function(state, cityName) {
       state.cityName = cityName;
     }
+    /*  SET_USER(state, { user }) {
+      state.currentUser = user;
+    },
+    UNSET_USER(state) {
+      state.currentUser = {};
+    } */
   }
 });
 
 export default store;
+export const db = firebase.firestore();

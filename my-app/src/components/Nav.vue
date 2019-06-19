@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-bottom-nav absolute color="transparent">
-      <v-btn to="/landing" active-class="active" fab dark>
+      <v-btn to="/home" active-class="active" fab dark>
         <v-icon>search</v-icon>
         <span class="button">Search</span>
       </v-btn>
@@ -11,9 +11,9 @@
         <span class="button">Discover</span>
       </v-btn>
 
-      <v-btn to="/" active-class="active" fab dark>
+      <v-btn to="/profile" active-class="active" fab dark>
         <v-icon>person</v-icon>
-        <span class="button">Home</span>
+        <span class="button">Profile</span>
       </v-btn>
     </v-bottom-nav>
   </div>

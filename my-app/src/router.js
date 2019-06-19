@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Discover from "./views/Discover";
+import Collections from "./components/Collections";
 import Landing from "./views/Landing";
 import Restaurant from "./components/Restaurant";
 import MoreInfo from "./components/MoreInfo";
@@ -14,14 +14,19 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/landing",
+      path: "/",
       name: "landing",
       component: () => import("./views/Landing.vue")
     },
     {
-      path: "/",
-      name: "home",
+      path: "/home",
+      name: "Home",
       component: Home
+    },
+    {
+      path: "/collections/:cityName",
+      name: "collections",
+      component: Collections
     },
     {
       path: "/discover/:cityName",
@@ -45,6 +50,12 @@ export default new Router({
       path: "/Map",
       name: "Map",
       component: () => import("./components/Map"),
+      props: true
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("./views/Profile.vue"),
       props: true
     }
   ]

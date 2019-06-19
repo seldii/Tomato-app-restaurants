@@ -10,8 +10,12 @@
 import Nav from "./components/Nav";
 import axios from "axios";
 import lodash from "lodash";
+
+import Vue from "vue";
+import { mapState } from "vuex";
 export default {
   name: "app",
+
   components: {
     Nav
   }
