@@ -1,14 +1,6 @@
 <template>
   <div class="collections">
-    <v-container v-if="collections == undefined">
-      <v-alert
-        :value="true"
-        color="warning"
-        icon="priority_high"
-        outline
-      >Sorry but we don't cover your location yet</v-alert>
-    </v-container>
-    <v-container v-else>
+    <v-container>
       <v-container v-if="collections == 0">
         <div class="text-xs-center">
           <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
@@ -71,20 +63,21 @@ import { mapGetters, mapActions, mapMutations, mapState } from "vuex";
 import router from "../router";
 export default {
   name: "Collections",
+  props: ["lat", "lng"],
   data() {
-    return {
-      value: 0,
-      buffer: 10,
-      bufferValue: 20,
-      interval: 0
-    };
+    return {};
   },
   methods: {
     getRestaurants: function() {
-      this.$store.dispatch(
-        "getRestaurants",
-        router.currentRoute.params.collectionId
-      );
+      const lat = this.lat;
+      const lng = this.lng;
+      console.log(lat);
+      this.$store.dispatch("getRestaurants", {
+        lat: lat,
+        lng: lng,
+        collectionId: router.currentRoute.params.collectionId
+      });
+      console.log("hello");
     },
     getCollections: function() {
       this.$store.dispatch("getCollections", this.$store.state.cityId);

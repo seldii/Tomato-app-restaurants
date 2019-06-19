@@ -24,6 +24,12 @@ import router from "../router";
 
 export default {
   name: "Nav",
+  data() {
+    return {
+      e3: 0,
+      e31: true
+    };
+  },
   components: {}
 };
 </script>

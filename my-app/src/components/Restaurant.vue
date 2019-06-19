@@ -98,6 +98,12 @@ export default {
     cityName() {
       return this.$store.state.cityName;
     }
+  },
+  watch: {
+    restaurants(newValue, oldValue) {
+      console.log(`Updating from ${newValue} to ${oldValue}`);
+      this.$store.state.restaurant = [];
+    }
   }
 };
 </script>

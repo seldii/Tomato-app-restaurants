@@ -25,8 +25,9 @@ export default new Router({
     },
     {
       path: "/collections/:cityName",
-      name: "collections",
-      component: Collections
+      name: "Collections",
+      component: Collections,
+      props: true
     },
     {
       path: "/discover/:cityName",

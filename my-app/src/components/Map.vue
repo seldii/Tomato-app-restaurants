@@ -9,7 +9,7 @@
           @click="center=item.position"
         />
       </GmapMap>
-      <v-btn block color="#FF4136" :to="{name:'collections'}">Discover the Collections in your city</v-btn>
+      <v-btn block color="#FF4136" :to="{name:'Collections'}">Discover the Collections in your city</v-btn>
     </v-container>
     <Nav/>
   </div>

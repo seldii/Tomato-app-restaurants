@@ -49,21 +49,21 @@ const store = new Vuex.Store({
   },
   getters: {},
   actions: {
-    async getLocation({ commit }, e) {
-      const response = await axios.get(
+    async getLocation({ commit }, obj) {
+      /* const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=` +
           e +
           `&key=`
       );
 
       lat = response.data.results[0].geometry.location.lat;
-      lon = response.data.results[0].geometry.location.lng;
+      lon = response.data.results[0].geometry.location.lng; */
 
       const response2 = await axios.get(
         "https://developers.zomato.com/api/v2.1/cities?lat=" +
-          lat +
+          obj.lat +
           "&lon=" +
-          lon,
+          obj.lng,
         { headers: config }
       );
       console.log(response2.data.location_suggestions[0].name);
@@ -71,34 +71,34 @@ const store = new Vuex.Store({
       commit("setCityName", response2.data.location_suggestions[0].name);
     },
 
-    async getCollections({ commit }, cityId) {
+    async getCollections({ commit }, obj) {
       console.log(store.state.cityId);
-      await setTimeout(() => {
-        axios
-          .get(
-            "https://developers.zomato.com/api/v2.1/collections?city_id=" +
-              store.state.cityId,
-            { headers: config }
-          )
-          .then(response => {
-            console.log(response.data.collections);
-            commit("setCollections", response.data.collections);
-          });
-      }, 2500);
+      await axios
+        .get(
+          "https://developers.zomato.com/api/v2.1/collections?lat=" +
+            obj.lat +
+            "&lon=" +
+            obj.lng,
+          { headers: config }
+        )
+        .then(response => {
+          commit("setCollections", response.data.collections);
+        });
     },
 
-    async getRestaurants({ commit }, collectionId) {
-      const url2 =
-        `https://developers.zomato.com/api/v2.1/search?lat=` +
-        lat +
-        `&lon=` +
-        lon +
-        `&collection_id=` +
-        collectionId;
-      const response = await axios.get(url2, {
-        headers: config
-      });
-      console.log(response.data.restaurants);
+    async getRestaurants({ commit }, obj) {
+      const response = await axios.get(
+        "https://developers.zomato.com/api/v2.1/search?lat=" +
+          obj.lat +
+          "&lon=" +
+          obj.lng +
+          "&collection_id=" +
+          obj.collectionId,
+        {
+          headers: config
+        }
+      );
+      console.log(response.data);
       commit("setRestaurants", response.data.restaurants);
     },
 
@@ -112,22 +112,6 @@ const store = new Vuex.Store({
       console.log(response.data);
       commit("getMoreInfo", response.data);
     }
-    /* init({ commit }) {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          commit("SET_USER", { user });
-        } else {
-          commit("UNSET_USER");
-        }
-      });
-    },
-    login({}) {
-      var authProvider = new firebase.auth.GoogleAuthProvider();
-      return firebase.auth().signInWithPopup(authProvider);
-    },
-    logout({}) {
-      firebase.auth().signOut();
-    } */
   },
 
   mutations: {
