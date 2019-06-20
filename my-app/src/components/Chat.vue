@@ -59,7 +59,7 @@
               small
               v-if="currentUser.displayName == message.username"
             >
-              <v-badge color="purple" right overlap>
+              <v-badge color="blue" right overlap>
                 <template v-slot:badge>
                   <v-icon small dark>message</v-icon>
                 </template>
@@ -77,10 +77,16 @@
                   <v-icon small dark>message</v-icon>
                 </template>
                 <v-card color="blue-grey lighten-3">
-                  <v-card-title>
-                    <v-icon dark>account_circle</v-icon>
-                    <span cclass="title font-weight-light caption">{{ message.username }}</span>
-                  </v-card-title>
+                  <v-badge left overlap>
+                    <template v-slot:badge>
+                      <v-avatar size="28px">
+                        <img :src="message.image">
+                      </v-avatar>
+                    </template>
+                    <v-card-title>
+                      <span cclass="title font-weight-light caption">{{ message.username }}</span>
+                    </v-card-title>
+                  </v-badge>
                   <v-card-text class="headline font-weight-bold body-2">"{{ message.text }}"</v-card-text>
                 </v-card>
               </v-badge>

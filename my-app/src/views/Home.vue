@@ -1,15 +1,16 @@
 <template>
   <div class="home">
-    <v-container fill-height>
-      <v-layout align-content-center justify-center>
-        <v-flex text-xs-center>
-          <h3>Where are you?</h3>
+    <v-toolbar color="red" clipped-left fixed dense>
+      <v-toolbar-title class="text-xs-center">Tomato</v-toolbar-title>
+    </v-toolbar>
+    <div class="full">
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center column fluid>
+          <div class="text-xs-center headline">Where are you?</div>
           <CitySearch/>
-        </v-flex>
-      </v-layout>
-    </v-container>
-
-    <Nav/>
+        </v-layout>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -39,5 +40,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+body {
+  background-color: red;
+}
+
+.search {
+  width: 100%;
+}
+
+.full,
+.home {
+  height: 100vw;
+}
 </style>

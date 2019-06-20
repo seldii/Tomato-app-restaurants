@@ -1,14 +1,8 @@
 <template>
-  <div>
-    <!-- <v-toolbar clipped-left fixed dense>
-      <v-btn icon to="/restaurant/:collectionName">
-        <v-icon color="purple darken-2">navigate_before</v-icon>
-      </v-btn>
-    </v-toolbar>-->
-
-    <v-layout>
+  <div class="xs12">
+    <v-layout row wrap>
       <v-flex xs12>
-        <v-card class max-width="374">
+        <v-card>
           <v-img
             v-if="restaurantInfo.thumb"
             class="white--text"
@@ -21,11 +15,7 @@
               <v-icon color="white">arrow_back</v-icon>
             </v-btn>
           </v-img>
-          <!--  <v-img v-else :src="images.sample">
-            <v-btn icon to="/restaurant/:collectionName">
-              <v-icon color="white">arrow_back</v-icon>
-            </v-btn>
-          </v-img>-->
+
           <v-card-title primary-title>
             <v-layout row>
               <v-flex grow>
@@ -93,6 +83,7 @@
                       <v-icon small color="#1B5E20">restaurant_menu</v-icon>
                       <span class="text--grey body-1 underline">Menu</span>
                     </template>
+
                     <div>{{restaurantInfo.menu_url}}</div>
                   </v-bottom-sheet>
                 </v-flex>
@@ -175,7 +166,7 @@
             </v-container>
           </v-card-text>
           <v-divider></v-divider>
-          <v-card-actions class="pa-3">
+          <v-card-actions class="pa-3 font-weight-medium">
             Rate this place
             <v-spacer></v-spacer>
             <v-icon>star_border</v-icon>
@@ -184,6 +175,35 @@
             <v-icon>star_border</v-icon>
             <v-icon>star_border</v-icon>
           </v-card-actions>
+          <v-divider></v-divider>
+          <v-flex pa-2 xs12>
+            <span class="subheading font-weight-medium">All photos</span>
+            <v-carousel height="200" cycle="false" hide-delimiters>
+              <v-carousel-item v-for="(photo,i) in photos" :key="i" :src="photo.photo.thumb_url"></v-carousel-item>
+            </v-carousel>
+          </v-flex>
+          <v-divider></v-divider>
+          <v-flex pa-2 xs12>
+            <v-layout fill-height column fluid>
+              <v-flex xs12>
+                <span class="subheading font-weight-medium">Hints about the place</span>
+              </v-flex>
+              <v-divider></v-divider>
+              <v-flex xs12>
+                <v-icon>money</v-icon>
+                <v-spacer></v-spacer>
+                <span class="caption font-weight-light">AVERAGE COST</span>
+                <br>
+                <span
+                  class="caption"
+                >{{restaurantInfo.average_cost_for_two}} {{restaurantInfo.currency}} for two people(approx.)</span>
+              </v-flex>
+              <v-divider></v-divider>
+              <v-flex xs12>
+                <span class="caption font-weight-light"></span>
+              </v-flex>
+            </v-layout>
+          </v-flex>
         </v-card>
       </v-flex>
     </v-layout>
@@ -232,6 +252,9 @@ export default {
     ...mapState(["restaurantInfo"]),
     reviews() {
       return this.restaurantInfo.all_reviews.reviews;
+    },
+    photos() {
+      return this.restaurantInfo.photos;
     }
   }
 };
@@ -249,6 +272,11 @@ a {
 }
 .underline {
   text-decoration: underline dashed green;
+}
+span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
 

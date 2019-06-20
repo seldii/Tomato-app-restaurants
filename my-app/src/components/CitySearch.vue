@@ -9,7 +9,7 @@
           solo-inverted
           append-icon="place"
           class="form-control"
-          placeholder="Search for your location"
+          label="Search"
           v-on:placechanged="getAddressData"
           @keydown.native.enter="location"
         ></vuetify-google-autocomplete>
@@ -59,6 +59,7 @@ export default {
     setCollectionRestArray: function() {
       this.$store.state.collections = [];
       this.$store.state.restaurants = [];
+      this.$store.state.restaurantInfo = null;
     } //init the store state variables as empty
   },
   mounted() {},

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="xs">
+  <div id="app" class="xs" pt-0>
     <v-app>
       <v-bottom-nav fixed :value="e31" :active.sync="e3" color>
         <v-btn to="/home" active-class="active" fab dark>
@@ -57,5 +57,8 @@ export default {
 
 .button {
   font-size: 10px;
+}
+#app {
+  margin-bottom: 50px;
 }
 </style>

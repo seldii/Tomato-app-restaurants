@@ -2,9 +2,9 @@
   <div class="profile">
     <v-toolbar clipped-left fixed dense>
       <v-toolbar-side-icon></v-toolbar-side-icon>
-      <v-toolbar-title>Your Profile</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
     </v-toolbar>
-    <Chat v-if="currentUser && currentUser.displayName"/>
+    <Chat v-if="currentUser && currentUser.displayName || errorMessage "/>
     <Login v-else/>
     <router-view/>
   </div>
@@ -24,6 +24,9 @@ export default {
   computed: {
     currentUser() {
       return this.$store.state.user.currentUser;
+    },
+    errorMessage() {
+      return this.$store.state.user.errorMessage;
     }
   },
   components: {
