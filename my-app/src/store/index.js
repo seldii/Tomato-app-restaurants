@@ -38,6 +38,7 @@ const store = new Vuex.Store({
   state: {
     collections: [],
     collectionIds: [],
+    collectionName: "",
     restaurants: [],
     restaurantInfo: [],
     cityId: "",
@@ -109,7 +110,7 @@ const store = new Vuex.Store({
       const response = await axios.get(url3, {
         headers: config
       });
-      console.log(response.data);
+      console.log(response.data.all_reviews.reviews);
       commit("getMoreInfo", response.data);
     }
   },
@@ -131,12 +132,6 @@ const store = new Vuex.Store({
     setCityName: function(state, cityName) {
       state.cityName = cityName;
     }
-    /*  SET_USER(state, { user }) {
-      state.currentUser = user;
-    },
-    UNSET_USER(state) {
-      state.currentUser = {};
-    } */
   }
 });
 

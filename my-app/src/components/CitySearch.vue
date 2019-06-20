@@ -50,27 +50,23 @@ export default {
         lng: this.address.longitude
       });
       console.log(this.$store.state.cityId);
-      this.$store.dispatch("getCollections", {
-        lat: this.address.latitude,
-        lng: this.address.longitude
-      });
+
       router.push({
         name: "Collections",
         params: { lat: this.address.latitude, lng: this.address.longitude }
       });
-
-      console.log(router.currentRoute.params.lat);
-    }
+    },
+    setCollectionRestArray: function() {
+      this.$store.state.collections = [];
+      this.$store.state.restaurants = [];
+    } //init the store state variables as empty
   },
   mounted() {},
   computed: {
     ...mapState(["cityId"])
   },
-  watch: {
-    cityId(newValue, oldValue) {
-      console.log(`Updating from ${newValue} to ${oldValue}`);
-      this.$store.state.collections = [];
-    }
+  created() {
+    this.setCollectionRestArray();
   }
 };
 </script>

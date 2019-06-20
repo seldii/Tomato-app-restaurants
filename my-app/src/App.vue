@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="xs">
     <v-app>
-      <v-bottom-nav fixed :value="e31" :active.sync="e3" color="transparent">
+      <v-bottom-nav fixed :value="e31" :active.sync="e3" color>
         <v-btn to="/home" active-class="active" fab dark>
           <v-icon>search</v-icon>
           <span class="button">Search</span>

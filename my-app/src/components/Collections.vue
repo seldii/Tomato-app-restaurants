@@ -71,16 +71,15 @@ export default {
     getRestaurants: function() {
       const lat = this.lat;
       const lng = this.lng;
-      console.log(lat);
+
       this.$store.dispatch("getRestaurants", {
         lat: lat,
         lng: lng,
         collectionId: router.currentRoute.params.collectionId
       });
-      console.log("hello");
     },
     getCollections: function() {
-      this.$store.dispatch("getCollections", this.$store.state.cityId);
+      this.$store.dispatch("getCollections", { lat: this.lat, lng: this.lng });
     }
   },
   computed: {
@@ -91,13 +90,6 @@ export default {
   },
   created() {
     this.getCollections();
-  },
-
-  watch: {
-    cityId(newValue, oldValue) {
-      console.log(`Updating from ${newValue} to ${oldValue}`);
-      this.$store.state.collections = [];
-    }
   }
 };
 </script>

@@ -1,10 +1,5 @@
 <template>
   <v-container class="chat-wrapper">
-    <v-toolbar clipped-left fixed dense>
-      <v-toolbar-side-icon></v-toolbar-side-icon>
-      <v-toolbar-title>Your Profile</v-toolbar-title>
-    </v-toolbar>
-
     <v-spacer></v-spacer>
     <v-layout row>
       <v-flex grow pa-1>
@@ -56,7 +51,12 @@
     <h3 class="text-xs-center">Recent Chats</h3>
     <v-spacer></v-spacer>
     <v-timeline ref="chatList">
-      <v-timeline-item color="orange darken-2" small v-for="message in messages">
+      <v-timeline-item
+        color="orange darken-2"
+        small
+        v-for="message in messages"
+        :key="message.username"
+      >
         <div class="chat-message__body">
           <p class="text-xs-right">{{ message.username }}</p>
           <p class="text-xs-right">"{{ message.text }}"</p>

@@ -1,5 +1,9 @@
 <template>
   <div class="profile">
+    <v-toolbar clipped-left fixed dense>
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-toolbar-title>Your Profile</v-toolbar-title>
+    </v-toolbar>
     <Chat v-if="currentUser && currentUser.displayName"/>
     <Login v-else/>
     <router-view/>

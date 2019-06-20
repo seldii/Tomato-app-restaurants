@@ -1,75 +1,192 @@
 <template>
   <div>
-    <v-card>
-      <v-container fluid grid-list-lg>
-        <v-layout>
-          <v-flex xs12>
-            <v-card class="mx-auto my-5" max-width="374">
-              <router-link to="/restaurant/:collectionName">
-                <v-btn icon>
-                  <v-icon color="purple darken-2">navigate_before</v-icon>
-                </v-btn>
-              </router-link>
-              <router-view></router-view>
-              <v-img
-                v-if="restaurantInfo.thumb"
-                class="white--text"
-                height="250px"
-                :src="restaurantInfo.thumb"
-                alt="img"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              ></v-img>
-              <v-img v-else :src="images.sample"></v-img>
-              <v-card-title primary-title>
-                <div class="headline">{{restaurantInfo.name}}</div>
-              </v-card-title>
-              <v-card-text>
-                <v-layout align-center>
-                  <v-rating
-                    v-model="restaurantInfo.user_rating.aggregate_rating"
-                    color="amber"
-                    half-increments
-                    dense
-                    size="14"
-                    readonly
-                  ></v-rating>
-                  <div
-                    class="grey--text ml-3"
-                  >{{restaurantInfo.user_rating.aggregate_rating}} ({{restaurantInfo.user_rating.votes}})</div>
+    <!-- <v-toolbar clipped-left fixed dense>
+      <v-btn icon to="/restaurant/:collectionName">
+        <v-icon color="purple darken-2">navigate_before</v-icon>
+      </v-btn>
+    </v-toolbar>-->
+
+    <v-layout>
+      <v-flex xs12>
+        <v-card class max-width="374">
+          <v-img
+            v-if="restaurantInfo.thumb"
+            class="white--text"
+            height="250px"
+            :src="restaurantInfo.thumb"
+            alt="img"
+            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          >
+            <v-btn icon to="/restaurant/:collectionName">
+              <v-icon color="white">arrow_back</v-icon>
+            </v-btn>
+          </v-img>
+          <!--  <v-img v-else :src="images.sample">
+            <v-btn icon to="/restaurant/:collectionName">
+              <v-icon color="white">arrow_back</v-icon>
+            </v-btn>
+          </v-img>-->
+          <v-card-title primary-title>
+            <v-layout row>
+              <v-flex grow>
+                <v-layout align-start column fill-height>
+                  <v-flex xs12>
+                    <div class="headline">{{restaurantInfo.name}}</div>
+                  </v-flex>
+                  <v-flex xs12>
+                    <span
+                      class="grey--text body-2"
+                    >{{restaurantInfo.establishment[0]}} | {{restaurantInfo.cuisines}}</span>
+                  </v-flex>
                 </v-layout>
-                <div class="my-3 subtitle-1 black--text">
-                  Price range : {{restaurantInfo.price_range}}
-                  • {{restaurantInfo.cuisines}}
-                </div>
-                <div>
-                  <GmapMap v-bind:center="center" v-bind:map-type-id="mapTypeId" v-bind:zoom="15">
-                    <GmapMarker
-                      v-for="(item, index) in markers"
-                      v-bind:key="index"
-                      v-bind:position="item.position"
-                      @click="center=item.position"
-                      @mouseover="onMapMarkerMouseOver(restaurantName)"
-                    />
-                  </GmapMap>
-                </div>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex xs12>
-            <v-subheader>Highlights</v-subheader>
-            <v-container d-flex grid-list-xl>
-              <v-layout row wrap>
-                <v-flex v-for="i in restaurantInfo.highlights" :key="i" xs4>
-                  <v-chip outline color="red lighten-2">{{i}}</v-chip>
+              </v-flex>
+              <v-flex shrink>
+                <v-layout align-center column fill-height>
+                  <v-flex xs12>
+                    <v-chip
+                      :color="'#' + restaurantInfo.user_rating.rating_color"
+                      text-color="white"
+                    >{{restaurantInfo.user_rating.aggregate_rating}}</v-chip>
+                  </v-flex>
+                  <v-flex xs12>
+                    <span
+                      class="font-weight-light caption text-no-wrap green--text text-darken--2"
+                    >{{restaurantInfo.user_rating.votes}} reviews</span>
+                  </v-flex>
+                </v-layout>
+              </v-flex>
+            </v-layout>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text>
+            <div>{{restaurantInfo.location.address}}</div>
+            <v-divider></v-divider>
+            <v-container pb-0 fluid grid-list-sm>
+              <v-layout row justify-space-between>
+                <v-flex xs4>
+                  <v-bottom-sheet v-model="sheet">
+                    <template v-slot:activator>
+                      <v-icon small color="#1B5E20">directions</v-icon>
+                      <span class="text--grey body-1 underline text-xs-center">Directions</span>
+                    </template>
+                    <div>
+                      <GmapMap
+                        v-bind:center="center"
+                        v-bind:map-type-id="mapTypeId"
+                        v-bind:zoom="15"
+                      >
+                        <GmapMarker
+                          v-for="(item, index) in markers"
+                          v-bind:key="index"
+                          v-bind:position="item.position"
+                          @click="center=item.position"
+                          @mouseover="onMapMarkerMouseOver(restaurantName)"
+                        />
+                      </GmapMap>
+                    </div>
+                  </v-bottom-sheet>
+                </v-flex>
+
+                <v-flex xs3>
+                  <v-bottom-sheet v-model="sheet">
+                    <template v-slot:activator>
+                      <v-icon small color="#1B5E20">restaurant_menu</v-icon>
+                      <span class="text--grey body-1 underline">Menu</span>
+                    </template>
+                    <div>{{restaurantInfo.menu_url}}</div>
+                  </v-bottom-sheet>
+                </v-flex>
+                <v-flex xs3>
+                  <v-dialog v-model="dialog" scrollable max-width="400px">
+                    <template v-slot:activator="{ on }">
+                      <v-icon small color="#1B5E20" v-on="on">rate_review</v-icon>
+                      <span v-on="on" class="text--grey body-1 underline">Reviews</span>
+                    </template>
+                    <v-container fluid grid-list-lg>
+                      <v-layout row wrap>
+                        <v-flex xs12>
+                          <v-card color="white" v-for="(review, index) in reviews" :key="index">
+                            <v-layout row>
+                              <v-flex xs3>
+                                <v-avatar ma-4>
+                                  <img :src="review.review.user.profile_image" contain>
+                                </v-avatar>
+                              </v-flex>
+                              <v-flex xs9>
+                                <v-layout align-start column fill-height>
+                                  <v-flex xs12>
+                                    <v-layout align-start column fill-height>
+                                      <v-flex xs12>
+                                        <div class="title">{{review.review.user.name}}</div>
+                                      </v-flex>
+                                      <v-flex xs12>
+                                        <v-layout row justify-start>
+                                          <v-flex xs3>
+                                            <v-icon
+                                              :color="'#' + review.review.user.foodie_color"
+                                            >label</v-icon>
+                                          </v-flex>
+                                          <v-flex xs7>
+                                            <span
+                                              class="caption text-no-wrap"
+                                            >{{review.review.user.foodie_level}}</span>
+                                          </v-flex>
+                                        </v-layout>
+                                      </v-flex>
+                                    </v-layout>
+                                  </v-flex>
+                                  <v-divider inset></v-divider>
+                                  <v-flex xs12>
+                                    <v-layout align-start column fill-height>
+                                      <v-flex xs12>
+                                        <v-layout row justify-space-between align-baseline>
+                                          <v-flex xs4>
+                                            <v-chip
+                                              :color="'#' + review.review.rating_color"
+                                              text-color="white"
+                                            >
+                                              {{review.review.rating}}
+                                              <v-icon small>star</v-icon>
+                                            </v-chip>
+                                          </v-flex>
+                                          <v-flex xs4>
+                                            <span
+                                              class="caption text-no-wrap"
+                                            >{{review.review.review_time_friendly}}</span>
+                                          </v-flex>
+                                        </v-layout>
+                                      </v-flex>
+                                      <v-divider inset color="black"></v-divider>
+                                      <v-flex xs12>
+                                        <span>{{review.review.review_text}}</span>
+                                      </v-flex>
+                                    </v-layout>
+                                  </v-flex>
+                                </v-layout>
+                              </v-flex>
+                            </v-layout>
+                          </v-card>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </v-dialog>
                 </v-flex>
               </v-layout>
             </v-container>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-card>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions class="pa-3">
+            Rate this place
+            <v-spacer></v-spacer>
+            <v-icon>star_border</v-icon>
+            <v-icon>star_border</v-icon>
+            <v-icon>star_border</v-icon>
+            <v-icon>star_border</v-icon>
+            <v-icon>star_border</v-icon>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 
@@ -80,9 +197,13 @@ export default {
   props: ["restarantId", "restaurantName"],
   data() {
     return {
-      images: {
+      /* images: {
         sample: require("../assets/fillingPic.jpg")
-      },
+      }, */
+
+      dialogm1: "",
+      dialog: false,
+
       center: {
         lat: parseFloat(this.$store.state.restaurantInfo.location.latitude),
         lng: parseFloat(this.$store.state.restaurantInfo.location.longitude)
@@ -105,9 +226,13 @@ export default {
   },
   created() {
     this.addMarker();
+    console.log(this.$store.restaurantInfo.all_reviews.reviews);
   },
   computed: {
-    ...mapState(["restaurantInfo"])
+    ...mapState(["restaurantInfo"]),
+    reviews() {
+      return this.restaurantInfo.all_reviews.reviews;
+    }
   }
 };
 </script>
@@ -121,6 +246,9 @@ a {
   height: 450px;
   max-width: 992px;
   width: 100%;
+}
+.underline {
+  text-decoration: underline dashed green;
 }
 </style>
 
