@@ -22,6 +22,10 @@ export default {
   methods: {
     getHomePage() {
       router.push({ name: "Home" });
+    },
+    unloadScrollBars() {
+      document.documentElement.style.overflow = "hidden"; // firefox, chrome
+      document.body.scroll = "no"; // ie only
     }
   },
   components: {
@@ -29,8 +33,12 @@ export default {
   },
   mounted() {
     document.getElementById("parallax-hero").style.height = "100vh";
+    this.unloadScrollBars();
   }
 };
 </script>
 <style scoped>
+#parallax-hero {
+  z-index: 999;
+}
 </style>

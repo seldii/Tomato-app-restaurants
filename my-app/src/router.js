@@ -24,7 +24,7 @@ export default new Router({
       component: Home
     },
     {
-      path: "/collections/:cityName",
+      path: "/collections",
       name: "Collections",
       component: Collections,
       props: true

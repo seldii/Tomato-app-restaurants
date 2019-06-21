@@ -1,5 +1,5 @@
 <template>
-  <div class="xs12">
+  <div>
     <v-layout row wrap>
       <v-flex xs12>
         <v-card>
@@ -9,9 +9,8 @@
             height="250px"
             :src="restaurantInfo.thumb"
             alt="img"
-            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           >
-            <v-btn icon to="/restaurant/:collectionName">
+            <v-btn icon @click="setRestaurantInfoZero()">
               <v-icon color="white">arrow_back</v-icon>
             </v-btn>
           </v-img>
@@ -24,9 +23,11 @@
                     <div class="headline">{{restaurantInfo.name}}</div>
                   </v-flex>
                   <v-flex xs12>
-                    <span
-                      class="grey--text body-2"
-                    >{{restaurantInfo.establishment[0]}} | {{restaurantInfo.cuisines}}</span>
+                    <span class="grey--text body-2">
+                      {{restaurantInfo.establishment[0]}} |
+                      <br>
+                      {{restaurantInfo.cuisines}}
+                    </span>
                   </v-flex>
                 </v-layout>
               </v-flex>
@@ -57,7 +58,10 @@
                   <v-bottom-sheet v-model="sheet">
                     <template v-slot:activator>
                       <v-icon small color="#1B5E20">directions</v-icon>
-                      <span class="text--grey body-1 underline text-xs-center">Directions</span>
+                      <span
+                        @click="addMarker()"
+                        class="text--grey body-1 underline text-xs-center"
+                      >Directions</span>
                     </template>
                     <div>
                       <GmapMap
@@ -69,8 +73,6 @@
                           v-for="(item, index) in markers"
                           v-bind:key="index"
                           v-bind:position="item.position"
-                          @click="center=item.position"
-                          @mouseover="onMapMarkerMouseOver(restaurantName)"
                         />
                       </GmapMap>
                     </div>
@@ -88,7 +90,7 @@
                   </v-bottom-sheet>
                 </v-flex>
                 <v-flex xs3>
-                  <v-dialog v-model="dialog" scrollable max-width="400px">
+                  <v-dialog v-model="dialog" scrollable full-width>
                     <template v-slot:activator="{ on }">
                       <v-icon small color="#1B5E20" v-on="on">rate_review</v-icon>
                       <span v-on="on" class="text--grey body-1 underline">Reviews</span>
@@ -149,7 +151,7 @@
                                       </v-flex>
                                       <v-divider inset color="black"></v-divider>
                                       <v-flex xs12>
-                                        <span>{{review.review.review_text}}</span>
+                                        <p>{{review.review.review_text}}</p>
                                       </v-flex>
                                     </v-layout>
                                   </v-flex>
@@ -178,7 +180,7 @@
           <v-divider></v-divider>
           <v-flex pa-2 xs12>
             <span class="subheading font-weight-medium">All photos</span>
-            <v-carousel height="200" cycle="false" hide-delimiters>
+            <v-carousel height="200" hide-delimiters>
               <v-carousel-item v-for="(photo,i) in photos" :key="i" :src="photo.photo.thumb_url"></v-carousel-item>
             </v-carousel>
           </v-flex>
@@ -212,6 +214,7 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
+import router from "../router";
 export default {
   name: "MoreInfo",
   props: ["restarantId", "restaurantName"],
@@ -240,14 +243,23 @@ export default {
       };
       this.markers.push({ position: marker });
       console.log(this.markers);
-      console.log(this.$store.state.restaurantInfo.location);
-      console.log(this.restaurantName);
+    },
+    /*   setCenter() {
+      const lat = parseFloat(
+        this.$store.state.restaurantInfo.location.latitude
+      );
+      const lng = parseFloat(
+        this.$store.state.restaurantInfo.location.longitude
+      );
+      this.center.push({ lat: lat, lng: lng });
+      console.log(this.center);
+    }, */
+    setRestaurantInfoZero() {
+      this.$store.state.restaurantInfo = [];
+      router.push({ name: "Restaurant" });
     }
   },
-  created() {
-    this.addMarker();
-    console.log(this.$store.restaurantInfo.all_reviews.reviews);
-  },
+
   computed: {
     ...mapState(["restaurantInfo"]),
     reviews() {

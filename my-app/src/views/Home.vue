@@ -36,6 +36,15 @@ export default {
     Nav,
     Login,
     Chat
+  },
+  methods: {
+    unloadScrollBars() {
+      document.documentElement.style.overflow = "hidden"; // firefox, chrome
+      document.body.scroll = "no"; // ie only
+    }
+  },
+  mounted() {
+    this.unloadScrollBars();
   }
 };
 </script>
@@ -49,8 +58,11 @@ body {
   width: 100%;
 }
 
-.full,
+.full {
+  height: 100vw;
+}
 .home {
   height: 100vw;
+  margin-top: 75px;
 }
 </style>

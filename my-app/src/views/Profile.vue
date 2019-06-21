@@ -32,6 +32,15 @@ export default {
   components: {
     Login,
     Chat
+  },
+  methods: {
+    reloadScrollBars() {
+      document.documentElement.style.overflow = "auto"; // firefox, chrome
+      document.body.scroll = "yes"; // ie only
+    }
+  },
+  mounted() {
+    this.reloadScrollBars();
   }
 };
 </script>

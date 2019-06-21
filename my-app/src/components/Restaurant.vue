@@ -39,7 +39,7 @@
                 <v-chip
                   small
                   class="ma-2"
-                  color="red"
+                  :color="'#' + restaurant.restaurant.user_rating.rating_color"
                   text-color="white"
                 >{{restaurant.restaurant.user_rating.aggregate_rating}}</v-chip>
               </v-img>
@@ -93,16 +93,10 @@ export default {
     collections() {
       return this.$store.state.collections;
     },
-    ...mapState(["restaurants"]),
+    ...mapState(["restaurants", "restaurantInfo"]),
 
     cityName() {
       return this.$store.state.cityName;
-    }
-  },
-  watch: {
-    restaurants(newValue, oldValue) {
-      console.log(`Updating from ${newValue} to ${oldValue}`);
-      this.$store.state.restaurant = [];
     }
   }
 };

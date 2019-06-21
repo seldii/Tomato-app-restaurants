@@ -8,11 +8,12 @@ import "firebase/firestore";
 import VueFirestore from "vue-firestore";
 import user from "./user";
 import messages from "./messages";
+import APIkey from "../APIkeys";
 
 Vue.config.productionTip = false;
 
 const firebaseConfig = {
-  apiKey: "",
+  apiKey: APIkey.apiKey,
   authDomain: "my-app-242908.firebaseapp.com",
   databaseURL: "https://my-app-242908.firebaseio.com",
   projectId: "my-app-242908",
@@ -28,12 +29,10 @@ Vue.use(Vuex);
 Vue.use(Vuetify);
 
 const config = {
-  "user-key": "",
+  "user-key": APIkey.userKey,
   Accept: "application/json"
 };
 
-let lon = "";
-let lat = "";
 const store = new Vuex.Store({
   state: {
     collections: [],

@@ -25,7 +25,7 @@
           <v-flex xs12>
             <v-card color="white darken-2" class="dark-grey--text">
               <router-link
-                @click.native="getRestaurants"
+                @click.native="getRest"
                 :to="{name: 'Restaurant', params: {collectionName: collection.collection.title, collectionId: collection.collection.collection_id}}"
               >
                 <v-img
@@ -68,7 +68,7 @@ export default {
     return {};
   },
   methods: {
-    getRestaurants: function() {
+    getRest: function() {
       const lat = this.lat;
       const lng = this.lng;
 
@@ -78,8 +78,10 @@ export default {
         collectionId: router.currentRoute.params.collectionId
       });
     },
-    getCollections: function() {
-      this.$store.dispatch("getCollections", { lat: this.lat, lng: this.lng });
+
+    reloadScrollBars() {
+      document.documentElement.style.overflow = "auto"; // firefox, chrome
+      document.body.scroll = "yes"; // ie only
     }
   },
   computed: {
@@ -88,8 +90,9 @@ export default {
       return this.$store.state.cityName;
     }
   },
-  created() {
-    this.getCollections();
+
+  mounted() {
+    this.reloadScrollBars();
   }
 };
 </script>

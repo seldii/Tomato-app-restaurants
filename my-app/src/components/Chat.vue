@@ -50,7 +50,7 @@
     <v-spacer></v-spacer>
     <v-container ref="chatList" fluid grid-list-sm>
       <v-layout align-center justify-space-between wrap>
-        <v-flex xs12 v-for="message in messages" :key="message.username">
+        <v-flex xs12 v-for="(message, index) in messages" :key="index">
           <v-layout row wrap>
             <v-flex
               xs5
