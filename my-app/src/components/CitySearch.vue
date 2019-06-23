@@ -11,7 +11,7 @@
           class="form-control"
           label="Search"
           v-on:placechanged="getAddressData"
-          @keydown.enter.native="getCollections()"
+          @keydown.enter.native="goCollections"
         ></vuetify-google-autocomplete>
       </v-form>
     </v-container>
@@ -33,17 +33,26 @@ export default {
     };
   },
   methods: {
-    getAddressData: _.debounce(function(addressData, placeResultData, id) {
+    getAddressData: function(addressData, placeResultData, id) {
       this.address = addressData;
-      this.$store.dispatch("getCollections", {
+      /* this.$store.dispatch("getCollections", {
         lat: this.address.latitude,
         lng: this.address.longitude
-      });
+      }); */
+    },
+    goCollections: function() {
+      this.$store.state.lat = this.address.latitude;
+      this.$store.state.lng = this.address.longitude;
+      this.$store.state.locName = this.address.name;
       router.push({
-        name: "Collections",
-        params: { lat: this.address.latitude, lng: this.address.longitude }
+        name: "Collections"
+        /*  params: {
+          lat: this.address.latitude,
+          lng: this.address.longitude,
+          locName: 
+        } */
       });
-    }, 1000),
+    },
 
     init: function() {
       this.$store.state.collections = [];

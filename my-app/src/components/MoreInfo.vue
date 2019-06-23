@@ -64,11 +64,7 @@
                       >Directions</span>
                     </template>
                     <div>
-                      <GmapMap
-                        v-bind:center="center"
-                        v-bind:map-type-id="mapTypeId"
-                        v-bind:zoom="15"
-                      >
+                      <GmapMap :center="center" :map-type-id="mapTypeId" :zoom="18">
                         <GmapMarker
                           v-for="(item, index) in markers"
                           v-bind:key="index"
@@ -217,7 +213,7 @@ import { mapGetters, mapActions, mapState } from "vuex";
 import router from "../router";
 export default {
   name: "MoreInfo",
-  props: ["restarantId", "restaurantName"],
+  props: ["restarantId", "restaurantName", "collectionName"],
   data() {
     return {
       /* images: {
@@ -227,10 +223,10 @@ export default {
       dialogm1: "",
       dialog: false,
 
-      center: {
+      /* center: {
         lat: parseFloat(this.$store.state.restaurantInfo.location.latitude),
         lng: parseFloat(this.$store.state.restaurantInfo.location.longitude)
-      },
+      }, */
       mapTypeId: "roadmap",
       markers: []
     };
@@ -260,6 +256,10 @@ export default {
     }
   },
 
+  created() {
+    this.$store.state.collectionName = this.collectionName;
+  },
+
   computed: {
     ...mapState(["restaurantInfo"]),
     reviews() {
@@ -267,6 +267,11 @@ export default {
     },
     photos() {
       return this.restaurantInfo.photos;
+    },
+    center() {
+      const lat = parseFloat(this.restaurantInfo.location.latitude);
+      const lng = parseFloat(this.restaurantInfo.location.longitude);
+      return { lat: lat, lng: lng };
     }
   }
 };

@@ -17,7 +17,7 @@
       <v-container fluid grid-list-lg>
         <v-text-field
           disabled
-          :label="collectionName + ' in ' + cityName"
+          :label="(collectionName || colName) + ' around ' + locName"
           prepend-inner-icon="place"
         ></v-text-field>
         <v-layout v-for="restaurant in restaurants" :key="restaurant.id">
@@ -53,7 +53,7 @@
               <router-link to="/more_info">
                 <v-btn
                   @click.native="getMoreInfo"
-                  :to="{name:'MoreInfo', params: {restaurantId: restaurant.restaurant.id, restaurantName: restaurant.restaurant.name}}"
+                  :to="{name:'MoreInfo', params: {restaurantId: restaurant.restaurant.id, restaurantName: restaurant.restaurant.name, collectionName: collectionName}}"
                   flat
                   small
                   color="primary"
@@ -87,17 +87,18 @@ export default {
         "getMoreInfo",
         router.currentRoute.params.restaurantId
       );
+      this.$store.state.collectionName = this.colName;
     }
   },
   computed: {
     collections() {
       return this.$store.state.collections;
     },
-    ...mapState(["restaurants", "restaurantInfo"]),
+    ...mapState(["restaurants", "restaurantInfo", "locName", "colName"])
 
-    cityName() {
+    /* cityName() {
       return this.$store.state.cityName;
-    }
+    } */
   }
 };
 </script>

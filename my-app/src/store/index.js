@@ -8,12 +8,12 @@ import "firebase/firestore";
 import VueFirestore from "vue-firestore";
 import user from "./user";
 import messages from "./messages";
-import APIkey from "../APIkeys";
+import apiConfig from "../apiKeys";
 
 Vue.config.productionTip = false;
 
 const firebaseConfig = {
-  apiKey: APIkey.apiKey,
+  apiKey: apiConfig.apiKey,
   authDomain: "my-app-242908.firebaseapp.com",
   databaseURL: "https://my-app-242908.firebaseio.com",
   projectId: "my-app-242908",
@@ -29,7 +29,7 @@ Vue.use(Vuex);
 Vue.use(Vuetify);
 
 const config = {
-  "user-key": APIkey.userKey,
+  "user-key": apiConfig.userKey,
   Accept: "application/json"
 };
 
@@ -41,7 +41,11 @@ const store = new Vuex.Store({
     restaurants: [],
     restaurantInfo: [],
     cityId: "",
-    cityName: ""
+    cityName: "",
+    lat: null,
+    lng: null,
+    locName: null,
+    colName: null
   },
   modules: {
     user,
@@ -71,14 +75,14 @@ const store = new Vuex.Store({
       commit("setCityName", response2.data.location_suggestions[0].name);
     },
 
-    async getCollections({ commit }, obj) {
+    async getCollections({ commit }) {
       console.log(store.state.cityId);
       await axios
         .get(
           "https://developers.zomato.com/api/v2.1/collections?lat=" +
-            obj.lat +
+            store.state.lat +
             "&lon=" +
-            obj.lng,
+            store.state.lng,
           { headers: config }
         )
         .then(response => {
@@ -86,14 +90,14 @@ const store = new Vuex.Store({
         });
     },
 
-    async getRestaurants({ commit }, obj) {
+    async getRestaurants({ commit }, collectionId) {
       const response = await axios.get(
         "https://developers.zomato.com/api/v2.1/search?lat=" +
-          obj.lat +
+          store.state.lat +
           "&lon=" +
-          obj.lng +
+          store.state.lng +
           "&collection_id=" +
-          obj.collectionId,
+          collectionId,
         {
           headers: config
         }

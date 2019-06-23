@@ -3,6 +3,7 @@ import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import apiConfig from "./apiKeys";
 import "vuetify/src/stylus/app.styl";
 
 import { sync } from "vuex-router-sync";
@@ -19,7 +20,7 @@ import Vuetify, {
   VCardText,
   VCardMedia,
   VListItem
-} from "vuetify";
+} from "vuetify/lib";
 import { Ripple } from "vuetify/lib/directives";
 
 Vue.use(Vuetify, {
@@ -43,12 +44,12 @@ import "babel-polyfill";
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0",
+    key: apiConfig.googleAPI,
     libraries: "places,drawing,visualization"
   }
 });
 Vue.use(VuetifyGoogleAutocomplete, {
-  apiKey: "AIzaSyBXjKG5EqxMNpeCQKD5EVe9sZiHPYVuxJ0"
+  apiKey: apiConfig.googleAPI
 });
 
 sync(store, router);

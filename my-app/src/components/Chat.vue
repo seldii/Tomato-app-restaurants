@@ -54,24 +54,40 @@
           <v-layout row wrap>
             <v-flex
               xs5
-              offset-xs7
-              color="orange darken-2"
+              :class="currentUser.displayName == message.username ? 'offset-xs7' : '' "
+              :color="currentUser.displayName == message.username ? 'orange darken-2' : 'grey'"
               small
-              v-if="currentUser.displayName == message.username"
             >
-              <v-badge color="blue" right overlap>
+              <v-badge
+                color="blue"
+                :class="currentUser.displayName == message.username ? 'right' : 'left'"
+                overlap
+              >
                 <template v-slot:badge>
                   <v-icon small dark>message</v-icon>
                 </template>
-                <v-card color="orange lighten-4" full-width>
-                  <v-card-title>
-                    <span class="title font-weight-light caption">You</span>
-                  </v-card-title>
+                <v-card
+                  :color="currentUser.displayName == message.username ? 'orange lighten-4' : 'grey lighten-2'"
+                  full-width
+                >
+                  <v-badge left overlap>
+                    <template v-slot:badge>
+                      <v-avatar v-if="currentUser.displayName != message.username" size="28px">
+                        <img :src="message.image">
+                      </v-avatar>
+                    </template>
+                    <v-card-title v-if="currentUser.displayName == message.username">
+                      <span class="title font-weight-light caption">You</span>
+                    </v-card-title>
+                    <v-card-title v-else>
+                      <span class="title font-weight-light caption">{{ message.username }}</span>
+                    </v-card-title>
+                  </v-badge>
                   <v-card-text class="headline font-weight-bold body-2">"{{ message.text }}"</v-card-text>
                 </v-card>
               </v-badge>
             </v-flex>
-            <v-flex xs5 small v-if="currentUser.displayName != message.username">
+            <!--   <v-flex xs5 small v-if="currentUser.displayName != message.username">
               <v-badge color="purple" right overlap>
                 <template v-slot:badge>
                   <v-icon small dark>message</v-icon>
@@ -90,38 +106,11 @@
                   <v-card-text class="headline font-weight-bold body-2">"{{ message.text }}"</v-card-text>
                 </v-card>
               </v-badge>
-            </v-flex>
+            </v-flex>-->
           </v-layout>
         </v-flex>
       </v-layout>
     </v-container>
-
-    <!-- <v-timeline ref="chatList">
-      <v-timeline-item
-        color="orange darken-2"
-        small
-        v-for="message in messages"
-        :key="message.username"
-      >
-        <div
-          v-if="currentUser.displayName == message.username"
-          style="background-color:blue;"
-          class="chat-message__body"
-        >
-          <span>{{ message.username }}</span>
-
-          <p class="text-xs-right">"{{ message.text }}"</p>
-        </div>
-        <div
-          v-if="currentUser.displayName != message.username"
-          style="background-color:red;"
-          class="chat-message__body"
-        >
-          <p class="text-xs-right">{{ message.username }}</p>
-          <p class="text-xs-right">"{{ message.text }}"</p>
-        </div>
-      </v-timeline-item>
-    </v-timeline>-->
   </v-container>
 </template>
 

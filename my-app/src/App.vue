@@ -44,8 +44,11 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 #app {
   margin-bottom: 50px;
+}
+body {
+  margin-top: 0 !important;
 }
 </style>
