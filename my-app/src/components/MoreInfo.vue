@@ -165,13 +165,9 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions class="pa-3 font-weight-medium">
-            Rate this place
+            Add this place to your favorites
             <v-spacer></v-spacer>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
-            <v-icon>star_border</v-icon>
+            <v-icon @click="addFavorites()">star_border</v-icon>
           </v-card-actions>
           <v-divider></v-divider>
           <v-flex pa-2 xs12>
@@ -209,7 +205,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from "vuex";
+import Vue from "vue";
+import { mapState } from "vuex";
 import router from "../router";
 export default {
   name: "MoreInfo",
@@ -230,6 +227,26 @@ export default {
       mapTypeId: "roadmap",
       markers: []
     };
+  },
+  computed: {
+    ...mapState({
+      restaurantInfo: state => state.restaurantInfo,
+      currentUser: state => state.user.currentUser
+    }),
+    reviews() {
+      return this.restaurantInfo.all_reviews.reviews;
+    },
+    photos() {
+      return this.restaurantInfo.photos;
+    },
+    center() {
+      const lat = parseFloat(this.restaurantInfo.location.latitude);
+      const lng = parseFloat(this.restaurantInfo.location.longitude);
+      return { lat: lat, lng: lng };
+    }
+  },
+  mounted() {
+    console.log(this.currentUser);
   },
   methods: {
     addMarker() {
@@ -253,25 +270,14 @@ export default {
     setRestaurantInfoZero() {
       this.$store.state.restaurantInfo = [];
       router.push({ name: "Restaurant" });
-    }
-  },
-
-  created() {
-    this.$store.state.collectionName = this.collectionName;
-  },
-
-  computed: {
-    ...mapState(["restaurantInfo"]),
-    reviews() {
-      return this.restaurantInfo.all_reviews.reviews;
     },
-    photos() {
-      return this.restaurantInfo.photos;
-    },
-    center() {
-      const lat = parseFloat(this.restaurantInfo.location.latitude);
-      const lng = parseFloat(this.restaurantInfo.location.longitude);
-      return { lat: lat, lng: lng };
+    addFavorites() {
+      this.$store.dispatch("messages/addFavorites", {
+        username: this.currentUser.displayName,
+        image: this.currentUser.photoURL,
+        object: this.restaurantInfo,
+        uid: this.currentUser.uid
+      });
     }
   }
 };

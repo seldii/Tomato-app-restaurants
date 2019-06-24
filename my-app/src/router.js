@@ -16,48 +16,57 @@ export default new Router({
     {
       path: "/",
       name: "landing",
-      component: () => import("./views/Landing.vue")
+      component: () => import("./views/Landing.vue"),
+      meta: { transition: "zoom" }
     },
+
     {
       path: "/home",
       name: "Home",
-      component: Home
+      component: Home,
+      meta: { transition: "" }
     },
     {
       path: "/collections",
       name: "Collections",
       component: Collections,
-      props: true
+      props: true,
+      meta: { transition: "" }
     },
     {
       path: "/discover/:cityName",
       name: "discover",
       component: () => import("./views/Discover.vue"),
-      props: true
+      props: true,
+      meta: { transition: "" }
     },
     {
       path: "/restaurant/:collectionName",
       name: "Restaurant",
       component: Restaurant,
-      props: true
+      props: true,
+      meta: { transition: "" }
     },
     {
       path: "/more_info",
       name: "MoreInfo",
       component: MoreInfo,
-      props: true
+      props: true,
+      meta: { transition: "" }
     },
     {
       path: "/Map",
       name: "Map",
       component: () => import("./components/Map"),
-      props: true
+      props: true,
+      meta: { transition: "" }
     },
     {
       path: "/profile",
       name: "profile",
       component: () => import("./views/Profile.vue"),
-      props: true
+      props: true,
+      meta: { transition: "" }
     }
   ]
 });

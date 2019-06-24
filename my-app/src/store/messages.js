@@ -36,6 +36,15 @@ const actions = {
       text,
       created_on: new Date()
     });
+  },
+  addFavorites({ commit }, { username, object, uid }) {
+    let favoritesRef = db.collection("favorites");
+    favoritesRef.add({
+      username,
+      uid,
+      object,
+      created_on: new Date()
+    });
   }
 };
 
