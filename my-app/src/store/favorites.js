@@ -1,25 +1,24 @@
 import "firebase/auth";
 import { db } from "./index";
-import * as firebase from "firebase";
 
 const state = {
   all: []
 };
 
 const mutations = {
-  ADD_MESSAGE(state, message) {
-    state.all.push(message);
+  ADD_FAVORITES(state, favorite) {
+    state.all.push(favorite);
   }
 };
 
 const actions = {
   init({ commit }) {
-    let messagesRef = db.collection("messages");
+    let favoritesRef = db.collection("favorites");
 
-    messagesRef.orderBy("created_on").onSnapshot(snapshot => {
+    favoritesRef.orderBy("created_on").onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
         if (change.type === "added") {
-          commit("ADD_MESSAGE", {
+          commit("ADD_FAVORITES", {
             ...change.doc.data(),
             id: change.doc.id
           });
@@ -27,13 +26,12 @@ const actions = {
       });
     });
   },
-  send({ commit }, { username, image, text }) {
-    let messagesRef = db.collection("messages");
-
-    messagesRef.add({
+  addFavorites({ commit }, { username, object, uid }) {
+    let favoritesRef = db.collection("favorites");
+    favoritesRef.add({
       username,
-      image,
-      text,
+      uid,
+      object,
       created_on: new Date()
     });
   }

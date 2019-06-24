@@ -8,6 +8,7 @@ import "firebase/firestore";
 import VueFirestore from "vue-firestore";
 import user from "./user";
 import messages from "./messages";
+import favorites from "./favorites";
 import apiConfig from "../apiKeys";
 
 Vue.config.productionTip = false;
@@ -49,7 +50,8 @@ const store = new Vuex.Store({
   },
   modules: {
     user,
-    messages
+    messages,
+    favorites
   },
   getters: {},
   actions: {

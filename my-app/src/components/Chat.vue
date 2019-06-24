@@ -119,7 +119,10 @@ export default {
     ...mapState({
       messages: state => state.messages.all,
       currentUser: state => state.user.currentUser
-    })
+    }),
+    messagesR() {
+      this.messages.reverse;
+    }
   },
   methods: {
     logout() {

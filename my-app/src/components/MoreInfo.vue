@@ -167,7 +167,7 @@
           <v-card-actions class="pa-3 font-weight-medium">
             Add this place to your favorites
             <v-spacer></v-spacer>
-            <v-icon @click="addFavorites()">star_border</v-icon>
+            <v-icon @click.once="addFavorites">star</v-icon>
           </v-card-actions>
           <v-divider></v-divider>
           <v-flex pa-2 xs12>
@@ -271,13 +271,14 @@ export default {
       this.$store.state.restaurantInfo = [];
       router.push({ name: "Restaurant" });
     },
-    addFavorites() {
-      this.$store.dispatch("messages/addFavorites", {
+    addFavorites: function(event) {
+      this.$store.dispatch("favorites/addFavorites", {
         username: this.currentUser.displayName,
         image: this.currentUser.photoURL,
         object: this.restaurantInfo,
         uid: this.currentUser.uid
       });
+      event.target.className += " yellow--text";
     }
   }
 };

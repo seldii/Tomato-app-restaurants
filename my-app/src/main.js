@@ -41,6 +41,9 @@ Vue.use(Vuetify, {
 });
 
 import "babel-polyfill";
+import VueChatScroll from "vue-chat-scroll";
+
+Vue.use(VueChatScroll);
 
 Vue.use(VueGoogleMaps, {
   load: {
